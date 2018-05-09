@@ -32,7 +32,7 @@ import java.util.Map;
 public class MainActivity extends AppCompatActivity {
 
 
-    private final String BASE_URL = "http://34.227.113.66:9000/tests/api/v1/radiology/";
+    private final String BASE_URL = "https://gist.github.com/aws1994/f583d54e5af8e56173492d3f60dd5ebf";
     private JsonArrayRequest request;
     private  RequestQueue requestQueue;
     private List<Modelist> modelists;
@@ -69,7 +69,7 @@ public class MainActivity extends AppCompatActivity {
 
              try {
 
-                 JSONArray array = new JSONArray(x);
+                 JSONArray array = new JSONArray(response);
 
                  jsonObject = response.getJSONObject(x);
 
