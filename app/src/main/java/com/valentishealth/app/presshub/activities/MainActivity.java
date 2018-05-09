@@ -32,7 +32,7 @@ import java.util.Map;
 public class MainActivity extends AppCompatActivity {
 
 
-    private final String BASE_URL = "https://gist.githubusercontent.com/aws1994/f583d54e5af8e56173492d3f60dd5ebf/raw/c7796ba51d5a0d37fc756cf0fd14e54434c547bc/anime.json";
+    private final String BASE_URL = "http://34.227.113.66:9000/tests/api/v1/radiology/";
     private JsonArrayRequest request;
     private  RequestQueue requestQueue;
     private List<Modelist> modelists;
@@ -42,6 +42,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
         modelists = new ArrayList<>();
 
 
@@ -67,17 +68,18 @@ public class MainActivity extends AppCompatActivity {
          for (int x = 0; x <response.length(); x++) {
 
              try {
+
+                 JSONArray array = new JSONArray(x);
+
                  jsonObject = response.getJSONObject(x);
+
+
 
                  Modelist datamodel = new Modelist();
 
-                 datamodel.setName(jsonObject.getString("name"));
-                 datamodel.setDescription(jsonObject.getString("description"));
-                 datamodel.setRating(jsonObject.getString("Rating"));
-                 datamodel.setEpisode(jsonObject.getInt("episode"));
-                 datamodel.setCategories(jsonObject.getString("categorie"));
-                 datamodel.setStudio(jsonObject.getString("studio"));
-                 datamodel.setImg(jsonObject.getString("img"));
+                 datamodel.setName(jsonObject.getString("slug"));
+                 datamodel.setDescription(jsonObject.getString("last_updated"));
+                 datamodel.setRating(jsonObject.getString("patient_no"));
                  modelists.add(datamodel);
 
              } catch (JSONException e) {

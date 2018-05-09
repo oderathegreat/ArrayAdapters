@@ -62,8 +62,8 @@ public class RecyclerAdapter extends  RecyclerView.Adapter<RecyclerAdapter.MyVie
 
         //load image from the iternet and set it into imageview using glide
 
-        Glide.with(context).load(mDataList.get(position).getImg()).apply(option).into(holder.img_thumbanil);
-
+        /*Glide.with(context).load(mDataList.get(position).getImg()).apply(option).into(holder.img_thumbanil);
+*/
     }
 
     @Override
