@@ -16,6 +16,10 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.loopj.android.http.AsyncHttpClient;
+import com.loopj.android.http.AsyncHttpResponseHandler;
+import com.loopj.android.http.JsonHttpResponseHandler;
+import com.loopj.android.http.RequestParams;
 import com.valentishealth.app.presshub.R;
 import com.valentishealth.app.presshub.adapters.RecyclerAdapter;
 import com.valentishealth.app.presshub.model.Modelist;
@@ -28,6 +32,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import cz.msebera.android.httpclient.Header;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -46,17 +52,36 @@ public class MainActivity extends AppCompatActivity {
         modelists = new ArrayList<>();
 
 
-     recyclerView = findViewById(R.id.recyclerView);
-     jsonrequest();
+        recyclerView = findViewById(R.id.recyclerView);
+        json2();
 
         RecyclerAdapter myadapter = new RecyclerAdapter(this, modelists);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-
         recyclerView.setAdapter(myadapter);
 
-
-
+        json2();
     }
+
+    public void json2(){
+        AsyncHttpClient c = new AsyncHttpClient();
+        RequestParams p = new RequestParams();
+
+        c.post(BASE_URL, p, new AsyncHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
+                Toast.makeText(MainActivity.this, "OK", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+
+            }
+        }
+
+        );
+    }
+
+
 
     private void jsonrequest() {
 
@@ -64,22 +89,24 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onResponse(JSONArray response) {
 
+                Toast.makeText(MainActivity.this, ""+response, Toast.LENGTH_LONG).show();
+
          JSONObject jsonObject = null;
+
          for (int x = 0; x <response.length(); x++) {
 
              try {
 
-                 JSONArray array = new JSONArray(response);
-
+                 JSONArray array = new JSONArray(x);
                  jsonObject = response.getJSONObject(x);
-
-
-
                  Modelist datamodel = new Modelist();
 
-                 datamodel.setName(jsonObject.getString("slug"));
-                 datamodel.setDescription(jsonObject.getString("last_updated"));
-                 datamodel.setRating(jsonObject.getString("patient_no"));
+                 datamodel.setName(jsonObject.getString("name"));
+                 datamodel.setDescription(jsonObject.getString("description"));
+                 datamodel.setRating(jsonObject.getString("Rating"));
+                 datamodel.setImg(jsonObject.getString("img"));
+                 datamodel.setStudio(jsonObject.getString("studio"));
+                 datamodel.setCategories(jsonObject.getString("categorie"));
                  modelists.add(datamodel);
 
              } catch (JSONException e) {
